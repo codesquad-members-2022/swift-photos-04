@@ -23,7 +23,7 @@ class PhotosCell: UICollectionViewCell {
         var imageView: UIImageView {
             let imageView = UIImageView()
             imageView.backgroundColor = UIColor.randomColor()
-            imageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+            imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
             return imageView
         }
         self.contentView.addSubview(imageView)
