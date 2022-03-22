@@ -8,8 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    private let photoCellName = "PhotosCell"
     
     var photosCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -17,7 +15,7 @@ class ViewController: UIViewController {
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
         layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-        layout.estimatedItemSize = CGSize(width: 80, height: 80)
+        layout.estimatedItemSize = CGSize(width: 100, height: 100)
         
         let boundSize = UIScreen.main.bounds.size
         let frame = CGRect(x: 0, y: 0, width: boundSize.width, height: boundSize.height)
@@ -30,7 +28,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         photosCollectionView.dataSource = self
         self.view.addSubview(photosCollectionView)
-        photosCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: photoCellName)
+        photosCollectionView.register(PhotosCell.self, forCellWithReuseIdentifier: PhotosCell.photoCellName)
+        self.title = "Photos"
     }
 }
 
@@ -40,17 +39,9 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: photoCellName, for: indexPath)
-        cell.backgroundColor = UIColor.randomColor()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCell.photoCellName, for: indexPath)
         return cell
     }
 }
 
-extension UIColor {
-    static fileprivate func randomColor() -> UIColor {
-        let r = CGFloat(Int.random(in: 0...255)) / 255
-        let g = CGFloat(Int.random(in: 0...255)) / 255
-        let b = CGFloat(Int.random(in: 0...255)) / 255
-        return UIColor(red: r, green: g, blue: b, alpha: 1.0)
-    }
-}
+
