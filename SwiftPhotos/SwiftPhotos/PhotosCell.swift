@@ -12,29 +12,19 @@ class PhotosCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
-    func configure() {
+    func configure(with image: UIImage) {
         var imageView: UIImageView {
             let imageView = UIImageView()
-            imageView.backgroundColor = UIColor.randomColor()
+            imageView.image = image
             imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
             return imageView
         }
         self.contentView.addSubview(imageView)
-    }
-}
-
-extension UIColor {
-    static fileprivate func randomColor() -> UIColor {
-        let r = CGFloat(Int.random(in: 0...255)) / 255
-        let g = CGFloat(Int.random(in: 0...255)) / 255
-        let b = CGFloat(Int.random(in: 0...255)) / 255
-        return UIColor(red: r, green: g, blue: b, alpha: 1.0)
     }
 }
