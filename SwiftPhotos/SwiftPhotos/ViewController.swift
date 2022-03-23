@@ -10,7 +10,7 @@ import Photos
 
 class ViewController: UIViewController {
     
-    var allPhotos: PHFetchResult<PHAsset>?
+    var allPhotos: PHFetchResult<PHAsset>!
     
     var photosCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -35,6 +35,14 @@ class ViewController: UIViewController {
         self.title = "Photos"
         
         self.allPhotos = PHAsset.fetchAssets(with: .image, options: nil) // 라이브러리에 있는 모든 사진 불러오기
+        switch PHPhotoLibrary.authorizationStatus() {
+            // 사용자가 접근을 허용했을 때
+            case .authorized:
+                // 옵저버로 등록
+            PHPhotoLibrary.shared().register(self)
+        default:
+            return
+        }
     }
 }
 
@@ -54,6 +62,18 @@ extension ViewController: UICollectionViewDataSource {
         }
         
         return cell
+    }
+}
+    
+extension ViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        // 변화 감지했을 때 원하는 동작 설정
+        let changedPhotos = changeInstance.changeDetails(for: self.allPhotos)
+        allPhotos = changedPhotos?.fetchResultAfterChanges
+        DispatchQueue.main.async {
+            self.photosCollectionView.insertItems(at: [IndexPath(item: self.allPhotos.count - 1, section: 0)])
+        }
+
     }
 }
 
