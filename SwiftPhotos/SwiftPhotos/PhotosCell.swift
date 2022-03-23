@@ -8,7 +8,7 @@
 import UIKit
 
 class PhotosCell: UICollectionViewCell {
-    static var photoCellName = "PhotosCell"
+    static let photoCellName = "PhotosCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)

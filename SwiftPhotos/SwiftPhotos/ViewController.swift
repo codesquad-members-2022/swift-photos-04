@@ -44,9 +44,10 @@ extension ViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCell.photoCellName, for: indexPath) as! PhotosCell
-        
-        guard let asset = self.allPhotos?.object(at: indexPath.item) else {return UICollectionViewCell()} // allPhotos에 indexPath.item의 위치에 있는 사진 하나의 Asset을 불러온다
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCell.photoCellName, for: indexPath) as? PhotosCell,
+              let asset = self.allPhotos?.object(at: indexPath.item) else {
+            return UICollectionViewCell()
+        } // allPhotos에 indexPath.item의 위치에 있는 사진 하나의 Asset을 불러온다
         
         PHImageManager().requestImage(for: asset, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFit, options: nil) { (image, _) in
             cell.configure(with: image ?? UIImage()) // 불러온 사진 하나를 Cell에 넣어준다
