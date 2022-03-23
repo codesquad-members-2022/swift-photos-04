@@ -63,8 +63,7 @@ extension ViewController: UICollectionViewDataSource {
               let asset = self.allPhotos?.object(at: indexPath.item) else {
             return UICollectionViewCell()
         }
-        
-        PHImageManager().requestImage(for: asset, targetSize: CGSize(width: Constants.cellWidth, height: Constants.cellHeight), contentMode: .aspectFit, options: nil) { (image, _) in
+        PHCachingImageManager().requestImage(for: asset, targetSize: CGSize(width: Constants.cellWidth, height: Constants.cellHeight), contentMode: .aspectFit, options: nil) { (image, _) in
             cell.configure(with: image ?? UIImage())
         }
         
