@@ -9,22 +9,21 @@ import UIKit
 
 class PhotosCell: UICollectionViewCell {
     static let photoCellName = "PhotosCell"
+    private var imageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        self.contentView.addSubview(imageView)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        self.imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        self.contentView.addSubview(imageView)
     }
     
     func configure(with image: UIImage) {
-        var imageView: UIImageView {
-            let imageView = UIImageView()
-            imageView.image = image
-            imageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-            return imageView
-        }
-        self.contentView.addSubview(imageView)
+        self.imageView.image = image
     }
 }
