@@ -42,7 +42,13 @@ class ViewController: UIViewController {
         photosCollectionView.register(PhotosCell.self, forCellWithReuseIdentifier: PhotosCell.photoCellName)
         self.title = "Photos"
         
-        NotificationCenter.default.addObserver(self, selector: #selector(), name: PhotoManager.NotificationNames.didChangePhotos, object: self.photoManager)
+        NotificationCenter.default.addObserver(self, selector: #selector(photoManagerChanged), name: PhotoManager.NotificationNames.didChangePhotos, object: self.photoManager)
+    }
+    
+    @objc func photoManagerChanged() {
+        DispatchQueue.main.async {
+            self.photosCollectionView.reloadData()
+        }
     }
 }
 
@@ -61,16 +67,3 @@ extension ViewController: UICollectionViewDataSource {
         return cell
     }
 }
-    
-//extension ViewController: PHPhotoLibraryChangeObserver {
-//    func photoLibraryDidChange(_ changeInstance: PHChange) {
-//        let changedPhotos = changeInstance.changeDetails(for: self.allPhotos)
-//        allPhotos = changedPhotos?.fetchResultAfterChanges
-//        DispatchQueue.main.async {
-//            self.photosCollectionView.insertItems(at: [IndexPath(item: self.allPhotos.count - 1, section: 0)])
-//        }
-//
-//    }
-//}
-
-
