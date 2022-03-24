@@ -16,6 +16,7 @@
 		0078363327E81AB100ECADA0 /* SwiftPhotosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078363227E81AB100ECADA0 /* SwiftPhotosTests.swift */; };
 		0078363D27E81AB100ECADA0 /* SwiftPhotosUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078363C27E81AB100ECADA0 /* SwiftPhotosUITests.swift */; };
 		0078363F27E81AB100ECADA0 /* SwiftPhotosUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0078363E27E81AB100ECADA0 /* SwiftPhotosUITestsLaunchTests.swift */; };
+		0242DAE827EC3EA00091598A /* PhotoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0242DAE727EC3EA00091598A /* PhotoManager.swift */; };
 		02D3EECB27E9A54C00E42688 /* PhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D3EECA27E9A54C00E42688 /* PhotosCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -50,6 +51,7 @@
 		0078363827E81AB100ECADA0 /* SwiftPhotosUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftPhotosUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0078363C27E81AB100ECADA0 /* SwiftPhotosUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftPhotosUITests.swift; sourceTree = "<group>"; };
 		0078363E27E81AB100ECADA0 /* SwiftPhotosUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftPhotosUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0242DAE727EC3EA00091598A /* PhotoManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoManager.swift; sourceTree = "<group>"; };
 		02D3EECA27E9A54C00E42688 /* PhotosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +106,7 @@
 				0078361B27E81AAF00ECADA0 /* AppDelegate.swift */,
 				0078361D27E81AAF00ECADA0 /* SceneDelegate.swift */,
 				0078361F27E81AAF00ECADA0 /* ViewController.swift */,
+				0242DAE727EC3EA00091598A /* PhotoManager.swift */,
 				02D3EECA27E9A54C00E42688 /* PhotosCell.swift */,
 				0078362127E81AAF00ECADA0 /* Main.storyboard */,
 				0078362427E81AB100ECADA0 /* Assets.xcassets */,
@@ -264,6 +267,7 @@
 				02D3EECB27E9A54C00E42688 /* PhotosCell.swift in Sources */,
 				0078362027E81AAF00ECADA0 /* ViewController.swift in Sources */,
 				0078361C27E81AAF00ECADA0 /* AppDelegate.swift in Sources */,
+				0242DAE827EC3EA00091598A /* PhotoManager.swift in Sources */,
 				0078361E27E81AAF00ECADA0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

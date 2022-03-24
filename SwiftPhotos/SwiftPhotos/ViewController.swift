@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Photos
 
 class ViewController: UIViewController {
     
@@ -17,7 +16,7 @@ class ViewController: UIViewController {
         static let lineSpace = 1.0
     }
     
-    var allPhotos: PHFetchResult<PHAsset>!
+    var photoManager = PhotoManager()
     
     var photosCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -43,43 +42,35 @@ class ViewController: UIViewController {
         photosCollectionView.register(PhotosCell.self, forCellWithReuseIdentifier: PhotosCell.photoCellName)
         self.title = "Photos"
         
-        self.allPhotos = PHAsset.fetchAssets(with: .image, options: nil)
-        switch PHPhotoLibrary.authorizationStatus() {
-            case .authorized:
-            PHPhotoLibrary.shared().register(self)
-        default:
-            return
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(), name: PhotoManager.NotificationNames.didChangePhotos, object: self.photoManager)
     }
 }
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.allPhotos?.count ?? 0
+        return self.photoManager.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCell.photoCellName, for: indexPath) as? PhotosCell,
-              let asset = self.allPhotos?.object(at: indexPath.item) else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCell.photoCellName, for: indexPath) as? PhotosCell else {
             return UICollectionViewCell()
         }
-        PHCachingImageManager().requestImage(for: asset, targetSize: CGSize(width: Constants.cellWidth, height: Constants.cellHeight), contentMode: .aspectFit, options: nil) { (image, _) in
-            cell.configure(with: image ?? UIImage())
-        }
+        let photoData = self.photoManager.makePhotoData(index: indexPath.item, size: CGSize(width: Constants.cellWidth, height: Constants.cellHeight))
         
+        cell.configure(with: UIImage(data: photoData ?? Data()) ?? UIImage())
         return cell
     }
 }
     
-extension ViewController: PHPhotoLibraryChangeObserver {
-    func photoLibraryDidChange(_ changeInstance: PHChange) {
-        let changedPhotos = changeInstance.changeDetails(for: self.allPhotos)
-        allPhotos = changedPhotos?.fetchResultAfterChanges
-        DispatchQueue.main.async {
-            self.photosCollectionView.insertItems(at: [IndexPath(item: self.allPhotos.count - 1, section: 0)])
-        }
-
-    }
-}
+//extension ViewController: PHPhotoLibraryChangeObserver {
+//    func photoLibraryDidChange(_ changeInstance: PHChange) {
+//        let changedPhotos = changeInstance.changeDetails(for: self.allPhotos)
+//        allPhotos = changedPhotos?.fetchResultAfterChanges
+//        DispatchQueue.main.async {
+//            self.photosCollectionView.insertItems(at: [IndexPath(item: self.allPhotos.count - 1, section: 0)])
+//        }
+//
+//    }
+//}
 
 
