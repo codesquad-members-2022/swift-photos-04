@@ -6,6 +6,7 @@
 //
 
 import Photos
+import UIKit
 
 class PhotoManager: NSObject {
     enum NotificationNames {
@@ -30,15 +31,14 @@ class PhotoManager: NSObject {
         }
     }
     
-    func makePhotoData(index: Int, size: CGSize) -> Data? {
+    func makePhotoData(index: Int, size: CGSize) -> UIImage? {
         let asset = self.photos.object(at: index)
-        var photoData: Data?
+        var photo: UIImage?
         
         PHCachingImageManager().requestImage(for: asset, targetSize: size, contentMode: .aspectFit, options: nil) { (image, _) in
-            photoData = image?.pngData()
+            photo = image
         }
-        
-        return photoData
+        return photo
     }
 }
 

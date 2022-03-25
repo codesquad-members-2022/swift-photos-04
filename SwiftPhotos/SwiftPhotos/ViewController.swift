@@ -63,7 +63,7 @@ extension ViewController: UICollectionViewDataSource {
         }
         let photoData = self.photoManager.makePhotoData(index: indexPath.item, size: CGSize(width: Constants.cellWidth, height: Constants.cellHeight))
         
-        cell.configure(with: UIImage(data: photoData ?? Data()) ?? UIImage())
+        cell.configure(with: photoData ?? UIImage())
         return cell
     }
 }
