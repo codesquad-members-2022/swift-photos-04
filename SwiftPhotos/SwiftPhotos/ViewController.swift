@@ -8,16 +8,24 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    private let photoCellName = "PhotosCell"
+    
+    enum Constants {
+        static let cellWidth = 100
+        static let cellHeight = 100
+        static let cellSpace = 3.0
+        static let lineSpace = 1.0
+    }
+    
+    var photoManager = PhotoManager()
     
     var photosCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-        layout.estimatedItemSize = CGSize(width: 80, height: 80)
+        layout.minimumLineSpacing = Constants.lineSpace
+        layout.minimumInteritemSpacing = Constants.lineSpace
+        layout.sectionInset = UIEdgeInsets(top: Constants.cellSpace, left: Constants.cellSpace,
+                                           bottom: Constants.cellSpace, right: Constants.cellSpace)
+        layout.estimatedItemSize = CGSize(width: Constants.cellWidth, height: Constants.cellHeight)
         
         let boundSize = UIScreen.main.bounds.size
         let frame = CGRect(x: 0, y: 0, width: boundSize.width, height: boundSize.height)
@@ -29,28 +37,33 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         photosCollectionView.dataSource = self
+        
         self.view.addSubview(photosCollectionView)
-        photosCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: photoCellName)
+        photosCollectionView.register(PhotosCell.self, forCellWithReuseIdentifier: PhotosCell.photoCellName)
+        self.title = "Photos"
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(photoManagerChanged), name: PhotoManager.NotificationNames.didChangePhotos, object: self.photoManager)
+    }
+    
+    @objc func photoManagerChanged() {
+        DispatchQueue.main.async {
+            self.photosCollectionView.reloadData()
+        }
     }
 }
 
 extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 40
+        return self.photoManager.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: photoCellName, for: indexPath)
-        cell.backgroundColor = UIColor.randomColor()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCell.photoCellName, for: indexPath) as? PhotosCell else {
+            return UICollectionViewCell()
+        }
+        let photoData = self.photoManager.makePhotoData(index: indexPath.item, size: CGSize(width: Constants.cellWidth, height: Constants.cellHeight))
+        
+        cell.configure(with: photoData ?? UIImage())
         return cell
-    }
-}
-
-extension UIColor {
-    static fileprivate func randomColor() -> UIColor {
-        let r = CGFloat(Int.random(in: 0...255)) / 255
-        let g = CGFloat(Int.random(in: 0...255)) / 255
-        let b = CGFloat(Int.random(in: 0...255)) / 255
-        return UIColor(red: r, green: g, blue: b, alpha: 1.0)
     }
 }
